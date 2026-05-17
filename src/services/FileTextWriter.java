@@ -1,12 +1,14 @@
 package services;
 
+import interfaces.PositionedLayout;
 import model.Client;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -93,6 +95,30 @@ public class FileTextWriter {
     }
 
     // writePositioned => String
+    public static String writePositioned(PositionedLayout positionableObject, Path file) {
+
+        Map<String, Integer> lastCharPositionFields = positionableObject.getCharacterNumberFields();
+        StringBuilder line = new StringBuilder();
+
+        for (String fieldName : lastCharPositionFields.keySet()) {
+            try {
+                Method fieldGetMethod = positionableObject.getClass().getMethod(fieldName);
+                Integer fieldCharLastPosition = lastCharPositionFields.get(fieldName);
+
+                line.append(fieldGetMethod.invoke(positionableObject).toString());
+
+                while (line.length() < fieldCharLastPosition) {
+                    line.append(" ");
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return  line.toString();
+    }
+
     // writeAllPositioned => List<String>
 
 
