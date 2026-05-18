@@ -1,22 +1,24 @@
 package model;
 
 import enums.Gender;
-import interfaces.PositionedLayout;
+import interfaces.PositionableLayoutObject;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
-public class Client implements PositionedLayout {
+public class Client implements PositionableLayoutObject {
 
     private String name;
     private LocalDate dateBirth;
     private Gender gender;
     private BigDecimal wage;
+
+
+    // Necessary to use Reflection Api
+    public Client() {}
+
 
     public Client(String name, LocalDate dateBirth, Gender gender, BigDecimal wage) {
         this.name = name;

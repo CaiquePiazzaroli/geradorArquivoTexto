@@ -1,6 +1,7 @@
 package data;
 
 import enums.Gender;
+import interfaces.PositionableLayoutObject;
 import model.Client;
 
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ public class ClientsData {
             BigDecimal.valueOf(5000.00)
     );
 
-    public static List<Client>  clients = Arrays.asList(
+    public static List<PositionableLayoutObject>  clients = Arrays.asList(
             new Client(
                     "Caique Mendes",
                     LocalDate.of(1996, 8, 3),

@@ -1,6 +1,7 @@
 package services;
 
 import enums.Gender;
+import interfaces.PositionableLayoutObject;
 import model.Client;
 
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that Read delimited and Positioned Files.
@@ -88,5 +91,26 @@ public class FileTextReader {
         }
     }
     // readPositioned(Path file) => List<String>
+    /**
+     * Read all lines of a delimited file
+     *
+     * @Param Path file: url that points to a file with .txt or .csv format
+     * @return List<String> containing all the lines of file
+     * */
+    public  static <T> List<String> readPositioned(Path file, Class<? extends PositionableLayoutObject> obj) {
+
+        try {
+
+            Object instance = obj.getDeclaredConstructor().newInstance();
+            var method = obj.getMethod("getCharacterNumberFields");
+
+            System.out.println(method.invoke(instance) instanceof Map);
+            List<Integer> limits = new LinkedList<>();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
     // fromPositioned(Path file) => List<Client>
  }

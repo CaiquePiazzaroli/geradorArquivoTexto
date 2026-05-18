@@ -1,6 +1,6 @@
 package services;
 
-import interfaces.PositionedLayout;
+import interfaces.PositionableLayoutObject;
 import model.Client;
 
 import java.io.IOException;
@@ -94,9 +94,37 @@ public class FileTextWriter {
         }
     }
 
-    // writePositioned => String
-    public static String writePositioned(PositionedLayout positionableObject, Path file) {
+    /**
+     * Save a positionable layout object in a positionable object
+     * @param positionableObject -> Object that implements PositionedLayout
+     * @param file  -> File Path that points to txt or csv file
+     * @return String containing wrote objects
+     * */
+    public static String writePositioned(PositionableLayoutObject positionableObject, Path file) {
 
+        String line = prepareString(positionableObject);
+
+        if (!validateFile(file)) {
+            System.out.println("The file not exists or the extension is not valid! Provide a valid file!");
+            return null;
+        }
+
+        try {
+            Files.writeString(file, line, StandardOpenOption.APPEND);
+            return line;
+        } catch (IOException e) {
+            System.out.println("Error when trying to write file");
+            return null;
+        }
+
+    }
+
+    /**
+     * Build a single positional String based on PositionedLayout Object
+     * @param positionableObject -> Object that implements PositionedLayout
+     * @return A String containing the object information in positional format
+     * */
+    private static String prepareString(PositionableLayoutObject positionableObject) {
         Map<String, Integer> lastCharPositionFields = positionableObject.getCharacterNumberFields();
         StringBuilder line = new StringBuilder();
 
@@ -116,10 +144,34 @@ public class FileTextWriter {
             }
         }
 
+        line.append("\n");
+
         return  line.toString();
+   }
+
+
+    /**
+     * Write a collection List PositionedLayoutObject in positioned format
+     *
+     * @Param positionedObjectsList - The List<PositionedLayoutObject> collection that represents collection of objects that implements PositionedLayoutObject.
+     * @param file - A Path object that points to a existent file in filesystem
+     * @return A collection of clients wrote in the file: List<PositionedLayoutObject>
+     * */
+    public static List<PositionableLayoutObject> writeAllPositioned(List<PositionableLayoutObject> positionedObjectsList, Path file) {
+
+        StringBuilder allLines = new StringBuilder();
+
+        for(PositionableLayoutObject client : positionedObjectsList) {
+            allLines.append(prepareString(client));
+        }
+
+        try {
+            Files.writeString(file, allLines.toString(), StandardOpenOption.APPEND);
+            return positionedObjectsList;
+        } catch (IOException e) {
+            System.out.println("Error when trying to write file");
+            return null;
+        }
     }
-
-    // writeAllPositioned => List<String>
-
 
 }

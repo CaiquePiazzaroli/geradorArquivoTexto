@@ -2,6 +2,6 @@ package interfaces;
 
 import java.util.Map;
 
-public interface PositionedLayout {
+public interface PositionableLayoutObject {
     public Map<String, Integer> getCharacterNumberFields();
 }
